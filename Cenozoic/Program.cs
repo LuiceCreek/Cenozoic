@@ -50,10 +50,10 @@ namespace Cenozoic
                 postLastId = (ulong)statuses[0]["id"];
                 foreach (dynamic status in Enumerable.Reverse((object[])statuses))
                 {
-                    string speechMessage = sensitiveWarningMessage;
-                    if (status.sensitive == false)
+                    string speechMessage = TagRemover(status.content);
+                    if (status.sensitive == true)
                     {
-                        speechMessage = TagRemover(status.content);
+                        speechMessage = sensitiveWarningMessage;
                     }
                     BouyomiChan.AddTalkTask(speechMessage);
                 }
