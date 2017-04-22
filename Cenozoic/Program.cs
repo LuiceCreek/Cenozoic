@@ -33,8 +33,8 @@ namespace Cenozoic
                 postLastId = (ulong)statuses[0]["id"];
                 foreach (dynamic status in statuses)
                 {
-                    string toot = Regex.Replace(status.content, "<.*?>", string.Empty);
-                    Console.WriteLine(toot);
+                    status.content = Regex.Replace(status.content, "<.*?>", string.Empty);
+                    Console.WriteLine(status.content);
                 }
             }
 
