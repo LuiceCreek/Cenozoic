@@ -32,6 +32,7 @@ namespace Cenozoic
             }
 
             Console.ReadLine();
+            BouyomiChan.Dispose();
         }
 
         private static void ThreadingTimerCallback(object state)
@@ -48,7 +49,7 @@ namespace Cenozoic
                 foreach (dynamic status in statuses)
                 {
                     status.content = TagRemover(status.content);
-                    Console.WriteLine(status.content);
+                    BouyomiChan.AddTalkTask(status.content);
                 }
             }
 
