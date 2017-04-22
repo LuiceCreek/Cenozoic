@@ -11,7 +11,7 @@ namespace Cenozoic
     {
         private static readonly int reloadInterval = 30000;
         private static readonly string publicTimelineBaseUrl = "https://mstdn-workers.com/api/v1/timelines/public";
-        private static int postLastId = 0;
+        private static ulong postLastId = 0;
 
         static void Main(string[] args)
         {
@@ -30,7 +30,7 @@ namespace Cenozoic
                 string publicTimeline = client.DownloadString(publicTimelineUrl);
                 dynamic statuses = DynamicJson.Parse(publicTimeline);
 
-                postLastId = (int)statuses[0]["id"];
+                postLastId = (ulong)statuses[0]["id"];
                 foreach (dynamic status in statuses)
                 {
                     string toot = Regex.Replace(status.content, "<.*?>", string.Empty);
