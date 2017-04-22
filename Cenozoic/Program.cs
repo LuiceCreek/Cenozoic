@@ -1,6 +1,7 @@
 ﻿using Codeplex.Data;
 using FNF.Utility;
 using System;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -47,7 +48,7 @@ namespace Cenozoic
                 dynamic statuses = DynamicJson.Parse(publicTimeline);
 
                 postLastId = (ulong)statuses[0]["id"];
-                foreach (dynamic status in statuses)
+                foreach (dynamic status in Enumerable.Reverse((object[])statuses))
                 {
                     string speechMessage = sensitiveWarningMessage;
                     if (status.sensitive == false)
