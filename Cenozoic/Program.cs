@@ -47,7 +47,11 @@ namespace Cenozoic
                 string publicTimeline = client.DownloadString(publicTimelineUrl);
                 dynamic statuses = DynamicJson.Parse(publicTimeline);
 
-                postLastId = (ulong)statuses[0]["id"];
+                if (statuses.IsDefined(0))
+                {
+                    postLastId = (ulong)statuses[0]["id"];
+                }
+
                 foreach (dynamic status in Enumerable.Reverse((object[])statuses))
                 {
                     string speechMessage = TagRemover(status.content);
