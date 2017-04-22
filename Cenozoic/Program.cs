@@ -33,13 +33,17 @@ namespace Cenozoic
                 postLastId = (ulong)statuses[0]["id"];
                 foreach (dynamic status in statuses)
                 {
-                    status.content = Regex.Replace(status.content, "<.*?>", string.Empty);
-                    Console.WriteLine(status.content);
+                    Console.WriteLine(TagRemover(status.content));
                 }
             }
 
             Timer timer = state as Timer;
             timer.Change(reloadInterval, Timeout.Infinite);
+        }
+
+        private static string TagRemover(string content)
+        {
+            return Regex.Replace(content, "<.*?>", string.Empty);
         }
     }
 }
