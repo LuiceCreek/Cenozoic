@@ -1,4 +1,5 @@
 ﻿using Codeplex.Data;
+using FNF.Utility;
 using System;
 using System.Net;
 using System.Text;
@@ -9,14 +10,24 @@ namespace Cenozoic
 {
     class Program
     {
+        private static BouyomiChanClient BouyomiChan;
         private static readonly int reloadInterval = 30000;
         private static readonly string publicTimelineBaseUrl = "https://mstdn-workers.com/api/v1/timelines/public";
         private static ulong postLastId = 0;
 
         static void Main(string[] args)
         {
-            Timer timer = new Timer(new TimerCallback(ThreadingTimerCallback));
-            timer.Change(0, Timeout.Infinite);
+            try
+            {
+                BouyomiChan = new BouyomiChanClient();
+                Timer timer = new Timer(new TimerCallback(ThreadingTimerCallback));
+                timer.Change(0, Timeout.Infinite);
+            }
+            catch
+            {
+                Console.WriteLine("棒読みちゃんに接続できませんでした。");
+            }
+
             Console.ReadLine();
         }
 
