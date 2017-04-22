@@ -22,6 +22,7 @@ namespace Cenozoic
             try
             {
                 BouyomiChan = new BouyomiChanClient();
+                BouyomiChan.AddTalkTask(BouyomiConnectedMessage);
                 Timer timer = new Timer(new TimerCallback(ThreadingTimerCallback));
                 timer.Change(0, Timeout.Infinite);
             }
