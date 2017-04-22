@@ -13,6 +13,7 @@ namespace Cenozoic
         private static BouyomiChanClient BouyomiChan;
         private static readonly string BouyomiConnectedMessage = "読み上げを開始します。";
         private static readonly string connectedErrorMessage = "棒読みちゃんに接続できませんでした。";
+        private static readonly string sensitiveWarningMessage = "不適切なコンテンツです。";
         private static readonly string publicTimelineBaseUrl = "https://mstdn-workers.com/api/v1/timelines/public";
         private static readonly int reloadInterval = 30000;
         private static ulong postLastId = 0;
@@ -48,8 +49,12 @@ namespace Cenozoic
                 postLastId = (ulong)statuses[0]["id"];
                 foreach (dynamic status in statuses)
                 {
-                    status.content = TagRemover(status.content);
-                    BouyomiChan.AddTalkTask(status.content);
+                    string speechMessage = sensitiveWarningMessage;
+                    if (status.sensitive == false)
+                    {
+                        speechMessage = TagRemover(status.content);
+                    }
+                    BouyomiChan.AddTalkTask(speechMessage);
                 }
             }
 
