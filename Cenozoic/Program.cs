@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Codeplex.Data;
+using System;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Cenozoic
@@ -24,7 +26,13 @@ namespace Cenozoic
             {
                 client.Encoding = Encoding.UTF8;
                 string publicTimeline = client.DownloadString(publicTimelineUrl);
-                Console.WriteLine(publicTimeline);
+                dynamic statuses = DynamicJson.Parse(publicTimeline);
+
+                foreach (dynamic status in statuses)
+                {
+                    string toot = Regex.Replace(status.content, "<.*?>", string.Empty);
+                    Console.WriteLine(toot);
+                }
             }
 
             Timer timer = state as Timer;
