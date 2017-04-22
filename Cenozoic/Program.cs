@@ -56,6 +56,7 @@ namespace Cenozoic
                         speechMessage = sensitiveWarningMessage;
                     }
                     BouyomiChan.AddTalkTask(speechMessage);
+                    Console.WriteLine(status.account.username + ": " + speechMessage);
                 }
             }
 
