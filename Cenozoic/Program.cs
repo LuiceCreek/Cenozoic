@@ -12,6 +12,7 @@ namespace Cenozoic
     {
         private static BouyomiChanClient BouyomiChan;
         private static readonly int reloadInterval = 30000;
+        private static readonly string connectedErrorMessage = "棒読みちゃんに接続できませんでした。";
         private static readonly string publicTimelineBaseUrl = "https://mstdn-workers.com/api/v1/timelines/public";
         private static ulong postLastId = 0;
 
@@ -25,7 +26,7 @@ namespace Cenozoic
             }
             catch
             {
-                Console.WriteLine("棒読みちゃんに接続できませんでした。");
+                Console.WriteLine(connectedErrorMessage);
             }
 
             Console.ReadLine();
