@@ -16,7 +16,7 @@ namespace Cenozoic
         private static readonly string connectedErrorMessage = "棒読みちゃんに接続できませんでした。";
         private static readonly string sensitiveWarningMessage = "不適切なコンテンツです。";
         private static readonly string publicTimelineBaseUrl = "https://mstdn-workers.com/api/v1/timelines/public";
-        private static readonly int reloadInterval = 30000;
+        private static readonly int reloadInterval = 10000;
         private static ulong postLastId = 0;
 
         static void Main(string[] args)
