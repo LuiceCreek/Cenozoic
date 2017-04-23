@@ -1,4 +1,5 @@
-﻿using Codeplex.Data;
+﻿using Cenozoic.Cevio;
+using Codeplex.Data;
 using FNF.Utility;
 using System;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Cenozoic
 {
     class Program
     {
-        private static BouyomiChanClient BouyomiChan;
+        private static ISpeechController speechController;
         private static readonly string BouyomiConnectedMessage = "読み上げを開始します。";
-        private static readonly string connectedErrorMessage = "棒読みちゃんに接続できませんでした。";
+        private static readonly string connectedErrorMessage = "Cevioに接続できませんでした。";
         private static readonly string sensitiveWarningMessage = "不適切なコンテンツです。";
         private static readonly string publicTimelineBaseUrl = "https://mstdn-workers.com/api/v1/timelines/public";
         private static readonly int reloadInterval = 10000;
@@ -23,8 +24,9 @@ namespace Cenozoic
         {
             try
             {
-                BouyomiChan = new BouyomiChanClient();
-                BouyomiChan.AddTalkTask(BouyomiConnectedMessage);
+                speechController = new CevioSpeechController();
+                speechController.Initialize();
+                speechController.Speak(BouyomiConnectedMessage);
                 Timer timer = new Timer(new TimerCallback(ThreadingTimerCallback));
                 timer.Change(0, Timeout.Infinite);
             }
@@ -34,7 +36,7 @@ namespace Cenozoic
             }
 
             Console.ReadLine();
-            BouyomiChan.Dispose();
+            speechController.Terminate();
         }
 
         private static void ThreadingTimerCallback(object state)
@@ -59,7 +61,7 @@ namespace Cenozoic
                     {
                         speechMessage = sensitiveWarningMessage;
                     }
-                    BouyomiChan.AddTalkTask(speechMessage);
+                    speechController.Speak(speechMessage);
                     Console.WriteLine(status.account.username + ": " + speechMessage);
                 }
             }
