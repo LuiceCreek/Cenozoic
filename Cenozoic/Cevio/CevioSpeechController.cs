@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CeVIO.Talk.RemoteService;
+using System.Text.RegularExpressions;
 
 namespace Cenozoic.Cevio
 {
@@ -21,7 +22,10 @@ namespace Cenozoic.Cevio
 
         public void Speak(string text)
         {
-            SpeakingState state = talk.Speak(trim(text));
+            string msg = transmitter(text);
+            if (String.IsNullOrEmpty(msg)) return;
+
+            SpeakingState state = talk.Speak(msg);
             state.Wait();
         }
 
@@ -30,13 +34,18 @@ namespace Cenozoic.Cevio
             ServiceControl.CloseHost();
         }
 
-        private string trim(string text)
+        private string transmitter(string text)
         {
-            if (text.Length < 100)
-            {
-                return text;
-            }
-            return text.Substring(1, 95) + "、以下略";
+            string msg = replaceUrlToEmpty(text);
+            // 文字数が100文字を超えると、Cevioがワーニングを出す為
+            if (msg.Length < 100) return msg;
+            return msg.Substring(1, 95) + "、以下略";
+        }
+
+        private string replaceUrlToEmpty(string text)
+        {
+            Regex regex = new Regex(@"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?");
+            return regex.Replace(text, string.Empty);
         }
     }
 }
